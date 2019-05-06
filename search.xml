@@ -1,0 +1,485 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title><![CDATA[Kafka简介]]></title>
+    <url>%2F3578637002%2F</url>
+    <content type="text"><![CDATA[Kafka是一个高吞吐量、分布式的发布-订阅消息系统。它最初由LinkedIn公司开发，后来成为Apache项目的一部分。Kafka核心模块使用Scala语言开发，支持多语言（java、c/c++、python、go、erlang、node.js）客户端，具有水平扩展和高吞吐量等特性被广泛使用。文章全部摘自《Kafka入门与实践》一书。 Kafka背景在海量数据时代下，如何高效地存储、分析、处理和挖掘海量数据已成为技术研究领域的热点和难点问题。如何采集和运营管理、分析这些数据是大数据处理中一个至关重要的环节，这就需要相应的基础设施提供支持。Kafka就是当前流行的一款非常优秀的消息系统。 Kafka是一款开源的、轻量级的、分布式、可分区和具有复制备份的、基于ZooKeeper协调管理的分布式流平台的功能强大的消息系统。与传统的消息系统相比，Kafka能够很好地处理活跃的流数据，使得数据在各个子系统中高性能、低延迟地不停流转。 Kafka作为一个流处理平台，必须必备一下3个关键特性。 能够发布和订阅流数据 存储流数据时提供相应的容错机制 当流数据到达时能够被及时处理 Kafka 基本结构Kafka最基本的结构有生成者和消费者，生产者负责生产消息，将消息写入Kafka集群，消费者从Kafka集群中拉取消息。 Kafka基本概念1.主题Kafka将一组消息抽象成一个主题（Topic），一个主题就是对消息的一个分类。生产者将消息发送到指定主题，消费者订阅主题进行消费。 2.消息消息是Kafka通信的基本单位，由一个固定长度的消息头和一个可变长度的消息体构成。 3.分区和副本Kafka将一组消息归纳为一个主题，而每个主题又被分成一个或多个分区（Partiton）。每个分区由一系列有序、不可变的消息组成，是一个有序队列。 每个分区在物理上对应一个文件夹，分区的命名规则为主题名称后接”-“连接符，之后再接分区编号，分区编号从0开始。每个分区有一至多个副本（Replica），分区的副本分布在集群的不同代理上，以提高可用性。 Kafka只能保证一个分区之内消息的有序性，并不能保证跨分区消息的有序性。每条消息被追加到相应的分区中，是顺序写磁盘，因此效率非常高。Kafka提供了两种删除老数据的策略，一是基于消息已存储的时间长度，二是基于分区的大小。 4.Leader副本和Follower副本Kafka要保证一个分区的多个副本之间数据的一致性，Kafka会选择该分区的一个副本作为Leader副本，而其它副本为Follower副本，只有Leader副本才负责处理客户端读/写请求，Follower副本从Leader副本同步数据。如果Leader失效，通过相应的选举算法将从其它Follower副本中选出新的Leader副本。 5.偏移量任何发布到分区的消息会被直接追加到日志文件的尾部，而每条消息在日志文件中的位置都会对应一个按序递增的偏移量。偏移量是一个分区下严格有序的逻辑值，不是消息在磁盘上的物理位置。消费者可以通过控制消息偏移量来对消息进行消费。 6.日志段一个日志又被划分为多个日志段（LogSegment），日志端是Kafka日志对象分片的最小单位。日志段是一个逻辑概念，一个日志段对应磁盘上一个具体日志文件和两个索引文件。日志文件是以”.log”为文件名后缀的数据文件，用于保存消息实际数据。两个索引文件分别以”.index”和”.timeindex”作为文件名后缀，分别表示消息偏移量索引文件和消息时间戳索引文件。 7.代理Kafka集群是由一个或多个Kafka实例构成，每个Kafka实例称为代理（Broker），通常也称代理为Kafka服务器（KafkaServer）。每个代理都有唯一的标识id。 8.生产者生产者（Producer）负责将消息发送给代理，也就是向Kafka代理发送消息的客户端。 9.消费者和消费组消费者（Consumer）以拉取（pull）方式拉取数据，它是消费的客户端。在Kafka中每一个消费者都属于一个特定消费组（ConsumerGroup），可以为每个消费者指定一个消费组。每个消费者也有一个全局唯一的id。同一个主题的一条消息只能被同一个消费组下某一个消费者消费，不同消费组的消费者可同时消费该消息。 10. ISRKafka在ZooKeeper中动态维护了一个ISR（In-sync Replica），即保存同步的副本列表，该列表中保存的是于leader副本保持消息同步的所有副本对应的代理节点id。如果一个Follower副本宕机或是落后太多，该Follower副本节点将从ISR列表中移除。 11.ZooKeeperKafka利用ZooKeeper保存相应元数据信息，Kafka元数据信息包括如代理节点信息、Kafka集群信息、旧版消费者信息及其消费偏移量信息、主题信息、分区状态信息、分区副本分配方案信息、动态配置信息等。 Kafka设计概述Kafka设计动机Kafka的设计初衷是使Kafka能够成为统一、实时处理大规模数据的平台。为了达到这个目标，Kafka必须支持以下几个应用场景。 具有高吞吐量来支持诸如实时的日志集 能够很好地处理大量积压的数据，以便能够周期性地加载离线数据进行处理 能够低延迟的处理传统消息应用场景 能够支持分区、分布式，实时地处理消息，同时具有容错保障机制 Kafka特性 消息持久化 高吞吐量 扩展性 多客户端支持 Kafka Streams 安全机制 数据备份 轻量级 消息压缩 Kafka应用场景 消息系统 应用监控 网站用户行为追踪 流处理 持久性日志]]></content>
+      <categories>
+        <category>Kafka</category>
+      </categories>
+      <tags>
+        <tag>Kafka</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo使用]]></title>
+    <url>%2F1947940652%2F</url>
+    <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git更新forked的项目]]></title>
+    <url>%2F2518201122%2F</url>
+    <content type="text"><![CDATA[如何更新forked过来的项目。方法如下： 添加原项目的remote源,只需要添加一次就行 12345678910git remote add upstream git@github.com:soimort/you-get.git``` 2. 将本地修改的commit下3. push前执行``` git remote update upstreamgit checkout &#123;branch name&#125;git rebase upstream/&#123;branch name&#125; 最后进行push 1git push origin &#123;branch name&#125;]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[docker出现Memory limited without swap]]></title>
+    <url>%2F2808712848%2F</url>
+    <content type="text"><![CDATA[ubuntu下docker出现 WARNING: Your kernel does not support swap limit capabilities or the cgroup is not mounted. Memory limited without swap. 解决办法编辑 /etc/default/grub 文件，找到 GRUB_CMDLINE_LINUX,修改为1GRUB_CMDLINE_LINUX=&quot;cgroup_enable=memory swapaccount=1&quot; 执行 sudo update-grub ,然后重启电脑]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu16.04设置python3默认]]></title>
+    <url>%2F2379415734%2F</url>
+    <content type="text"><![CDATA[ubuntu16.04自带有python2和python3，如何将python3设置为默认。执行下面两个命令即可12sudo update-alternatives --install /usr/bin/python python /usr/bin/python2 100sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 150 如果要切换到python其他版本，执行1sudo update-alternatives --config python]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>python</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu执行apt update出现Aborted (core dumped)错误]]></title>
+    <url>%2F2007401021%2F</url>
+    <content type="text"><![CDATA[ubuntu执行sudo apt update出现下面错误1234Aborted (core dumped)Reading package lists... DoneE: Problem executing scripts APT::Update::Post-Invoke-Success &apos;if /usr/bin/test -w /var/cache/app-info -a -e /usr/bin/appstreamcli; then appstreamcli refresh &gt; /dev/null; fi&apos;E: Sub-process returned an error code 解决方法123sudo pkill -KILL appstreamcliwget -P /tmp https://launchpad.net/ubuntu/+archive/primary/+files/appstream_0.9.4-1ubuntu1_amd64.deb https://launchpad.net/ubuntu/+archive/primary/+files/libappstream3_0.9.4-1ubuntu1_amd64.debsudo dpkg -i /tmp/appstream_0.9.4-1ubuntu1_amd64.deb /tmp/libappstream3_0.9.4-1ubuntu1_amd64.deb 再重新执行sudo apt-get update]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Enable File Watcher to compile SCSS to CSS]]></title>
+    <url>%2F958030140%2F</url>
+    <content type="text"><![CDATA[WebStorm设置Enable File Watcher to compile SCSS to CSS 安装ruby下载 ruby 并安装，下载地址为：1http://www.ruby-lang.org/en/downloads/ 安装sass1gem install sass 如果出现下面错误 SSL_connect returned=1 errno=0 state=SSLv3 read server certificate B: certificate verify failed (https://api.rubygems.org/specs.4.8.gz) 更新下源，再重新安装12gem sources --remove https://rubygems.org/gem sources -a http://rubygems.org/ 配置FileWatcher如下图所示，选择 SCSSProgram 那进入 ruby 安装目录的 bin 目录下，选择scss.bat。（如果是Sass就选择sass.bat）]]></content>
+      <categories>
+        <category>WebStorm</category>
+      </categories>
+      <tags>
+        <tag>WebStorm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[nginx swagger问题解决]]></title>
+    <url>%2F1099619583%2F</url>
+    <content type="text"><![CDATA[spring boot整合swagger打包之后使用nginx代理出错无法使用解决。错误为：&quot;no content&quot; and Response Code 0 或者 使用spring security，公开访问的资源出现403 可尝试123456789101112131415upstream tomcat &#123; server localhost:8080;&#125;server &#123; listen 80; server_name localhost; root /usr/share/nginx/html/dist; location / &#123; proxy_pass http://tomcat/; proxy_set_header Host $host; #指定host &#125;# ...&#125;]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>nginx</tag>
+        <tag>spring boot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring boot swagger配置]]></title>
+    <url>%2F1664483852%2F</url>
+    <content type="text"><![CDATA[spring boot整合swagger搭建restful api文档 创建spring boot项目使用 Spring Initializr 创建 spring boot 项目 swagger配置maven 配置12345678910&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger2&lt;/artifactId&gt; &lt;version&gt;2.7.0&lt;/version&gt;&lt;/dependency&gt;&lt;dependency&gt; &lt;groupId&gt;io.springfox&lt;/groupId&gt; &lt;artifactId&gt;springfox-swagger-ui&lt;/artifactId&gt; &lt;version&gt;2.7.0&lt;/version&gt;&lt;/dependency&gt; 创建 Swagger 配置类123456789101112131415161718192021222324@Configuration@EnableSwagger2public class SwaggerConfig &#123; @Autowired private TokenProperties properties; ApiInfo apiInfo() &#123; return new ApiInfoBuilder() .title("API Reference") .version("1.0.0") .build(); &#125; @Bean public Docket customImplementation()&#123; return new Docket(DocumentationType.SWAGGER_2) .apiInfo(apiInfo()) .select().paths(PathSelectors.any()) .apis(RequestHandlerSelectors.basePackage("controller")) //controller所在包 .build() .pathMapping("/") ; &#125;&#125; swagger注解 @Api：修饰整个类，描述Controller的作用 @ApiImplicitParam：一个请求参数 @ApiImplicitParams：多个请求参数 @ApiModel：修饰model对象类 @ApiModelProperty：修饰model对象类的属性 @ApiOperation：描述一个类的一个方法，或者说一个接口 @ApiParam：单个参数描述 @ApiResponse：HTTP响应其中1个描述 @ApiResponses：HTTP响应整体描述 示例123456789@ApiModel("用户信息")public class User &#123; @ApiModelProperty(value = "主键", notes = "数据库自动生成") private int id; @ApiModelProperty(value = "账号", required = true, notes = "唯一") private String account; @ApiModelProperty(value = "密码", required = true, hidden = true) private String password;&#125; 1234567891011121314@Api(value = "用户API", description = "用户API", tags = "User")@RestController@RequestMapping("user")public class UserController &#123; @ApiOperation(value = "根据用户id获取用户信息") @ApiImplicitParams( @ApiImplicitParam(name = "userId", value = "用户id") ) @RequestMapping(value = "get", method = RequestMethod.GET) public HttpRes&lt;User&gt; getAll(@RequestParam int userId) &#123; // ... &#125;&#125; 启动 spring boot，访问 http://localhost:8080/swagger-ui.html 就可以看到效果了。]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring boot</tag>
+        <tag>swagger</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[使用electron构建angular桌面应用程序]]></title>
+    <url>%2F2268864848%2F</url>
+    <content type="text"><![CDATA[使用electron打包angular为桌面应用程序 创建angular项目如果没安装angular-cli，先安装angular-cli1npm install -g @angular/cli 使用ng创建项目1ng new electron-angular-demo 安装依赖1npm install 使用IDE工具打开 electron-anguhelar-demo 更新 src/index.html1&lt;base href=&quot;./&quot;&gt; 配置electron安装electron1npm install electron --save-dev 在项目根目录下创建 main.js 12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455const &#123;app, BrowserWindow&#125; = require('electron')const path = require('path')const url = require('url')// 保持一个对于 window 对象的全局引用，如果你不这样做，// 当 JavaScript 对象被垃圾回收， window 会被自动地关闭let winfunction createWindow () &#123; // 创建浏览器窗口。 win = new BrowserWindow(&#123; width: 800, height: 600, // icon: `file://$&#123;__dirname&#125;/dist/assets/logo.png` &#125;) // 然后加载应用的 index.html。 win.loadURL(`file://$&#123;__dirname&#125;/dist/index.html`) // 打开开发者工具。 win.webContents.openDevTools() // 当 window 被关闭，这个事件会被触发。 win.on('closed', () =&gt; &#123; // 取消引用 window 对象，如果你的应用支持多窗口的话， // 通常会把多个 window 对象存放在一个数组里面， // 与此同时，你应该删除相应的元素。 win = null &#125;)&#125;// Electron 会在初始化后并准备// 创建浏览器窗口时，调用这个函数。// 部分 API 在 ready 事件触发后才能使用。app.on('ready', createWindow)// 当全部窗口关闭时退出。app.on('window-all-closed', () =&gt; &#123; // 在 macOS 上，除非用户用 Cmd + Q 确定地退出， // 否则绝大部分应用及其菜单栏会保持激活。 if (process.platform !== 'darwin') &#123; app.quit()&#125;&#125;)app.on('activate', () =&gt; &#123; // 在macOS上，当单击dock图标并且没有其他窗口打开时， // 通常在应用程序中重新创建一个窗口。 if (win === null) &#123; createWindow()&#125;&#125;)// 在这文件，你可以续写应用剩下主进程代码。// 也可以拆分成几个文件，然后用 require 导入。 更新 package.json1234567891011121314151617&#123; &quot;name&quot;: &quot;electron-angular-demo&quot;, &quot;version&quot;: &quot;0.0.0&quot;, &quot;license&quot;: &quot;MIT&quot;, &quot;main&quot;: &quot;main.js&quot;, // 添加 &quot;scripts&quot;: &#123; &quot;ng&quot;: &quot;ng&quot;, &quot;start&quot;: &quot;ng serve&quot;, &quot;build&quot;: &quot;ng build&quot;, &quot;test&quot;: &quot;ng test&quot;, &quot;lint&quot;: &quot;ng lint&quot;, &quot;e2e&quot;: &quot;ng e2e&quot;, &quot;electron&quot;: &quot;electron .&quot;, // 添加 &quot;electron-build&quot;: &quot;ng build --prod &amp;&amp; electron .&quot; // 添加 &#125;, // ...&#125; 运行electron1npm run electron-build 效果截图 如果出现 Error: Cannot find module &#39;@angular-devkit/core&#39;，检查 package.json 的 @angular/cli12// &quot;@angular/cli&quot;: &quot;1.5.5&quot; 换成&quot;@angular/cli&quot;: &quot;^1.5.5&quot; 在运行1npm update]]></content>
+      <categories>
+        <category>electron</category>
+      </categories>
+      <tags>
+        <tag>electron</tag>
+        <tag>angular</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[windows下easybcd引导ubuntu安装的menu.lst配置]]></title>
+    <url>%2F736068404%2F</url>
+    <content type="text"><![CDATA[windows下easybcd引导ubuntu安装的menu.lst配置以及说明 menu.lst配置 12345678title Install Ubunturoot (hd0,0)kernel (hd0,0)/vmlinuz.efi boot=casper iso-scan/filename=/ubuntu-14.04.5-desktop-amd64.iso locale=zh_CN.UTF-8initrd (hd0,0)/initrd.lztitle rebootreboottitle halthalt ubuntu的iso文件位置在c盘，以及initrd.lz和vmlinuz.efi也拷贝到c盘，c盘在硬盘的位置可以从硬盘管理器查看(我的电脑-&gt;右键-&gt;管理)，序号从0开始 (hd0,0)中hd0表示电脑第一块硬盘，0表示这块硬盘上的第一个分区(填ubuntu的iso文件所在分区位置)]]></content>
+      <categories>
+        <category>easybcd</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>windows</tag>
+        <tag>easybcd</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[springmvc No mapping found for HTTP request]]></title>
+    <url>%2F1542896872%2F</url>
+    <content type="text"><![CDATA[spring mvc 出现No mapping found for HTTP request with URI /css/main.css in DispatcherServlet with name ‘springmvc’错误解决 方法1 在web.xml文件上配置 1234&lt;servlet-mapping&gt; &lt;servlet-name&gt;default&lt;/servlet-name&gt; &lt;url-pattern&gt;*.css&lt;/url-pattern&gt;&lt;/servlet-mapping&gt; 方法2 在spring-mvc配置文件中配置 1234567891011# 先在spring-mvc配置文件中声明spring-mvc标签&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot; ... xmlns:mvc=&quot;http://www.springframework.org/schema/mvc&quot; xsi:schemaLocation=&quot;... http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd &quot;&gt;# 再添加&lt;mvc:default-servlet-handler/&gt;# 或者&lt;mvc:resources mapping=&quot;/**&quot; location=&quot;/&quot; /&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>springmvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[windows下easybcd引导centos安装的menu.lst配置]]></title>
+    <url>%2F216010902%2F</url>
+    <content type="text"><![CDATA[在windows下easybcd引导centos安装的menu.lst配置以及注意事项 menu.lst配置1234title Install CentOSroot (hd0,6)kernel (hd0,6)/isolinux/vmlinuz linux repo=hd:/dev/sda7:/initrd (hd0,6)/isolinux/initrd.img linux repo=hd:/dev/sda7:/表示centos的iso文件所在位置，hd:/dev/sda7:/“(序号从1开始)”和(hd0,6)“序号是0开始”指向的是同一个位置 安装centos时注意事项centos可以识别etx3的磁盘格式（也可以识别fat32格式，但fat32格式的最大单个文件支持不能超过4g），无法识别ntfs，所以在安装前可以先用 EASEUS Partition Master工具来划分ext3分区，在将centos的iso镜像和image以及isolinux文件拷贝到这个分区下，再进行安装，最后在配置menu.lst]]></content>
+      <categories>
+        <category>easybcd</category>
+      </categories>
+      <tags>
+        <tag>windows</tag>
+        <tag>easybcd</tag>
+        <tag>centos</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[git modified content, untracked content]]></title>
+    <url>%2F139708025%2F</url>
+    <content type="text"><![CDATA[git commit出现modified content, untracked content问题解决 检查该目录下是否存在.git文件夹，将其删除在重新git add 和 git commit]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo next云标签]]></title>
+    <url>%2F2867892032%2F</url>
+    <content type="text"><![CDATA[hexo next添加hexo-tag-cloud云标签 hexo-tag-cloud插件安装1npm i hexo-tag-cloud --save 修改next/layout/_custom/sidebar.swig加入以下内容123456789101112&#123;% if site.tags.length &gt; 1 %&#125;&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot; src=&quot;/js/tagcloud.js&quot;&gt;&lt;/script&gt;&lt;script type=&quot;text/javascript&quot; charset=&quot;utf-8&quot; src=&quot;/js/tagcanvas.js&quot;&gt;&lt;/script&gt;&lt;div class=&quot;widget-wrap&quot;&gt; &lt;h3 class=&quot;widget-title&quot;&gt;Tag Cloud&lt;/h3&gt; &lt;div id=&quot;myCanvasContainer&quot; class=&quot;widget tagcloud&quot;&gt; &lt;canvas width=&quot;250&quot; height=&quot;250&quot; id=&quot;resCanvas&quot; style=&quot;width=100%&quot;&gt; &#123;&#123; list_tags() &#125;&#125; &lt;/canvas&gt; &lt;/div&gt;&lt;/div&gt;&#123;% endif %&#125; 完成安装和显示1hexo clean &amp;&amp; hexo g &amp;&amp; hexo s]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>hexo-tag-cloud</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo SEO配置]]></title>
+    <url>%2F3504545898%2F</url>
+    <content type="text"><![CDATA[hexo next主题博客主动提交链接到百度和谷歌 sitemap配置安装sitemap插件12npm install hexo-generator-sitemap --savenpm install hexo-generator-baidu-sitemap --save 修改next主题下的_config.yml123456menu: sitemap: /sitemap.xml || sitemap seo: truebaidu_push: true 修改hexo的_config.yml的url为博客地址，这里是1url: https://jecyhw.github.io 博客链接URL唯一(可选)hexo-abbrlink插件安装1npm install hexo-abbrlink --save 修改hexo的_config.yml12345#permalink: :year/:month/:day/:title/permalink: :abbrlink/abbrlink: alg: crc32 # 算法：crc16(default) and crc32 rep: dec # 进制：dec(default) and hex 添加robots.txt在source目录下创建robots.txt,复制下面内容，修改Sitemap地址为博客地址1234567891011121314User-agent: *Allow: /Allow: /categories/Allow: /tags/Allow: /archives/Disallow: /vendors/Disallow: /js/Disallow: /css/Disallow: /fonts/Disallow: /vendors/Disallow: /fancybox/Sitemap: https://jecyhw.github.io/sitemap.xmlSitemap: https://jecyhw.github.io/baidusitemap.xml 部署提交到github1hexo g -d 链接提交到百度站点进入百度站长工具 https://ziyuan.baidu.com/site/index 填写博客地址设置站点领域验证网站，这里选择文件验证下载验证文件，放入到source目录下，打开验证文件，在最上面加入1234--- layout: false--- 部署到github上1hexo g -d 完成验证。百度收录比较慢，需要等待好长一段时间才能搜索到。 链接提交到谷歌进入google站点平台 https://www.google.com/webmasters/tools/home?hl=zh-CN 添加站点 验证网站下载验证文件，放入到source目录下，打开验证文件，在最上面加入1234--- layout: false--- 部署到github上1hexo g -d 完成验证。 添加站点地图等几个小时就能在google上搜索到自己的博客了 添加nofollow标签(可选) 修改themes/next/layout/_partials/footer.swig，对所有标签加上 rel=&quot;external nofollow&quot; 123&lt;a class=&quot;theme-link&quot; target=&quot;_blank&quot; href=&quot;https://hexo.io&quot; rel=&quot;external nofollow&quot;&gt;&lt;a class=&quot;theme-link&quot; target=&quot;_blank&quot; href=&quot;https://github.com/iissnan/hexo-theme-next&quot; rel=&quot;external nofollow&quot;&gt; 修改themes/next/layout/_macro/sidebar.swig，对部分标签加上 rel=&quot;external nofollow&quot; ，如下所示 123&lt;a href=&quot;https://creativecommons.org/&#123;% if theme.creative_commons === &apos;zero&apos; %&#125;publicdomain/zero/1.0&#123;% else %&#125;licenses/&#123;&#123; theme.creative_commons &#125;&#125;/4.0&#123;% endif %&#125;/&quot; class=&quot;cc-opacity&quot; target=&quot;_blank&quot; rel=&quot;external nofollow&quot;&gt;&lt;a href=&quot;&#123;&#123; link &#125;&#125;&quot; title=&quot;&#123;&#123; name &#125;&#125;&quot; target=&quot;_blank&quot; rel=&quot;external nofollow&quot;&gt;&#123;&#123; name &#125;&#125;&lt;/a&gt;]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>SEO</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo next 打赏]]></title>
+    <url>%2F910053190%2F</url>
+    <content type="text"><![CDATA[hexo next添加打赏功能 微信和支付宝二维码设置先生成微信和支付宝二维码，将图片放在themes/next/source/images下 配置_config.yml找到如下语句并修改1234# Rewardreward_comment: 您的支持将鼓励我继续创作！wechatpay: /images/wechatpay.pngalipay: /images/alipay.png 删除打赏文字闪动样式进入themes\next\source\css\_common\components\post\post-reward.styl,找到以下样式并删除123456789101112131415#wechat:hover p&#123; animation: roll 1s infinite linear; -webkit-animation: roll 1s infinite linear; -moz-animation: roll 1s infinite linear;&#125;#alipay:hover p&#123; animation: roll 1s infinite linear; -webkit-animation: roll 1s infinite linear; -moz-animation: roll 1s infinite linear;&#125;#bitcoin:hover p &#123; animation: roll 1s infinite linear; -webkit-animation: roll 1s infinite linear; -moz-animation: roll 1s infinite linear;&#125;]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo 404公益]]></title>
+    <url>%2F1924118775%2F</url>
+    <content type="text"><![CDATA[在source文件夹下创建404.html，复制下面内容 12345678910111213141516171819---layout: falsetitle: &quot;404&quot;---&lt;!DOCTYPE HTML&gt;&lt;html&gt;&lt;head&gt; &lt;title&gt;404&lt;/title&gt; &lt;meta name=&quot;description&quot; content=&quot;404错误，页面不存在！&quot;&gt; &lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8;&quot;/&gt; &lt;meta http-equiv=&quot;X-UA-Compatible&quot; content=&quot;IE=edge,chrome=1&quot; /&gt; &lt;meta name=&quot;robots&quot; content=&quot;all&quot; /&gt; &lt;meta name=&quot;robots&quot; content=&quot;index,follow&quot;/&gt;&lt;/head&gt;&lt;body&gt;&lt;script type=&quot;text/javascript&quot; src=&quot;//qzonestyle.gtimg.cn/qzone/hybrid/app/404/search_children.js&quot; charset=&quot;utf-8&quot; homePageUrl=&quot;/&quot; homePageName=&quot;回到我的主页&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt; 修改next主题_config.yml文件，去掉commonweal注释，如下所示12menu: commonweal: /404/ || heartbeat]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>404</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring mvc中ResponseEntity的中文返回乱码解决]]></title>
+    <url>%2F126721933%2F</url>
+    <content type="text"><![CDATA[spring mvc中ResponseEntity的中文返回乱码解决方法 方法1在@RequestMapping注解中声明prodeces={&quot;application/json; charset=utf-8&quot;}可以解决 方法2在dispatcher-servlet配置文件中添加以下配置即可123456789101112131415&lt;mvc:annotation-driven&gt; &lt;mvc:message-converters&gt;&lt;!-- 处理请求时返回字符串的中文乱码问题 --&gt; &lt;bean class=&quot;org.springframework.http.converter.StringHttpMessageConverter&quot;&gt; &lt;property name=&quot;writeAcceptCharset&quot; value=&quot;false&quot;/&gt; &lt;property name=&quot;supportedMediaTypes&quot;&gt; &lt;list&gt; &lt;value&gt;application/xml;charset=UTF-8&lt;/value&gt; &lt;value&gt;text/html;charset=UTF-8&lt;/value&gt; &lt;value&gt;text/plain;charset=UTF-8&lt;/value&gt; &lt;value&gt;application/json;charset=UTF-8&lt;/value&gt; &lt;/list&gt; &lt;/property&gt; &lt;/bean&gt; &lt;/mvc:message-converters&gt;&lt;/mvc:annotation-driven&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring mvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring mvc freemarker配置]]></title>
+    <url>%2F3913767996%2F</url>
+    <content type="text"><![CDATA[在applicationContext.xml配置文件中配置 非web的freemarker配置12345678910111213&lt;bean id=&quot;freemarkerConfiguration&quot; class=&quot;org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean&quot;&gt; &lt;!--模板所在目录--&gt; &lt;property name=&quot;templateLoaderPath&quot; value=&quot;classpath:template&quot; /&gt; &lt;!--freemarker配置文件--&gt; &lt;property name=&quot;configLocation&quot; value=&quot;classpath:freemarker.properties&quot;/&gt; &lt;property name=&quot;freemarkerVariables&quot;&gt; &lt;map&gt; &lt;entry key=&quot;tileSize&quot; value=&quot;$&#123;tileSize&#125;&quot;/&gt; &lt;entry key=&quot;tileFormat&quot; value=&quot;$&#123;tileFormat&#125;&quot;/&gt; &lt;entry key=&quot;maxLevel&quot; value=&quot;$&#123;maxLevel&#125;&quot;/&gt; &lt;/map&gt; &lt;/property&gt;&lt;/bean&gt; web的freemarker配置12345678910111213&lt;bean class=&quot;org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer&quot;&gt; &lt;!--模板所在目录--&gt; &lt;property name=&quot;templateLoaderPath&quot; value=&quot;classpath:template&quot; /&gt; &lt;!--freemarker配置文件--&gt; &lt;property name=&quot;configLocation&quot; value=&quot;classpath:freemarker.properties&quot;/&gt; &lt;property name=&quot;freemarkerVariables&quot;&gt; &lt;map&gt; &lt;entry key=&quot;tileSize&quot; value=&quot;$&#123;tileSize&#125;&quot;/&gt; &lt;entry key=&quot;tileFormat&quot; value=&quot;$&#123;tileFormat&#125;&quot;/&gt; &lt;entry key=&quot;maxLevel&quot; value=&quot;$&#123;maxLevel&#125;&quot;/&gt; &lt;/map&gt; &lt;/property&gt;&lt;/bean&gt; 在freemarker的Configuration类实例注入该bean即可两者的区别在于FreeMarkerConfigurer依赖与ServletContext]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring mvc</tag>
+        <tag>freemarker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring mvc将空字串转换成null配置]]></title>
+    <url>%2F4075928980%2F</url>
+    <content type="text"><![CDATA[在applicationContext配置文件中添加1234567891011&lt;bean class=&quot;org.springframework.beans.factory.config.CustomEditorConfigurer&quot;&gt; &lt;property name=&quot;customEditors&quot;&gt; &lt;map&gt; &lt;entry key=&quot;java.lang.String&quot;&gt; &lt;bean class=&quot;org.springframework.beans.propertyeditors.StringTrimmerEditor&quot;&gt; &lt;constructor-arg name=&quot;emptyAsNull&quot; value=&quot;true&quot;/&gt; &lt;/bean&gt; &lt;/entry&gt; &lt;/map&gt; &lt;/property&gt;&lt;/bean&gt;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring mvc</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring boot更改thymeleaf版本]]></title>
+    <url>%2F3210521597%2F</url>
+    <content type="text"><![CDATA[spring boot下更改thymeleaf版本 Maven配置1234&lt;properties&gt; &lt;thymeleaf.version&gt;3.0.2.RELEASE&lt;/thymeleaf.version&gt; &lt;thymeleaf-layout-dialect.version&gt;2.0.5&lt;/thymeleaf-layout-dialect.version&gt;&lt;/properties&gt; Gradle配置12ext[&apos;thymeleaf.version&apos;] = &apos;3.0.2.RELEASE&apos;ext[&apos;thymeleaf-layout-dialect.version&apos;] = &apos;2.0.5&apos; 提示: spring boot所有的依赖项的版本配置在123456&lt;parent&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-dependencies&lt;/artifactId&gt; &lt;version&gt;1.4.2.RELEASE&lt;/version&gt; &lt;relativePath&gt;../../spring-boot-dependencies&lt;/relativePath&gt;&lt;/parent&gt; 用自己的版本号覆盖就行]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring boot</tag>
+        <tag>thymeleaf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring boot - Live Reload/Hot Swap]]></title>
+    <url>%2F3435526137%2F</url>
+    <content type="text"><![CDATA[spring boot开发环境热部署，修改后实时更新 项目配置依赖Maven,添加12345&lt;dependency&gt; &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt; &lt;artifactId&gt;spring-boot-devtools&lt;/artifactId&gt; &lt;scope&gt;runtime&lt;/scope&gt;&lt;/dependency&gt; Gradle，添加1runtime(&apos;org.springframework.boot:spring-boot-devtools&apos;) IDEA设置File -&gt; Settings -&gt; Build, Exception, Deployment -&gt; Compiler Make project automatically勾选上 Ctrl + Shift + A,输入Registry 找到 compiler.automake.allow.when.app.running,勾选上 安装chrome插件: livereload]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring boot``</tag>
+        <tag>hot swap</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[spring boot security error: in a frame because it set 'X-Frame-Options' to DENY]]></title>
+    <url>%2F2914312071%2F</url>
+    <content type="text"><![CDATA[spring boot security出现in a frame because it set ‘X-Frame-Options’ to DENY错误解决办法123456789@Configurationpublic class SecurityConfig extends WebSecurityConfigurerAdapter &#123; @Override protected void configure(HttpSecurity http) throws Exception &#123; http .headers() //加上 .frameOptions().sameOrigin() &#125;&#125;]]></content>
+      <categories>
+        <category>java</category>
+      </categories>
+      <tags>
+        <tag>spring boot</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[virtualbox从u盘启动进入Ubuntu]]></title>
+    <url>%2F3314239952%2F</url>
+    <content type="text"><![CDATA[1.将U盘接到电脑的USB接口上。键盘上按WIN+R打开运行窗口，输入diskmgmt.msc点击确定打开磁盘管理。 2.然后我们右击VirtualBox程序，选择以管理员身份打开。这个现在只要打开就可以，暂不进行操作。 3.以管理员身份打开CMD窗口。（这里要注意，一定要以管理员身份打开CDM，否则执行命令时要权限不足。） 4.先查看一下VirtualBox的安装目录位置，等下需要进入到这个目录。右击VirtualBox图标，点击属性。在起始位置中可以看安装的盘符及具体的安装目录。把这个复制起来。 5.现在我们在CMD窗口中，要进入到VirtualBox的安装目录位置。 6.接着输入 VBoxManage internalcommands createrawvmdk -filename F:\usb.vmdk -rawdisk \.\PhysicalDrive1 PhysicalDrive1里面的1是第一步里面的u盘位置。 7.然后按下回车键执行，就创建成功。我们进入到刚才的这个保存位置去看看有没有usb.vmdk文件，有的话就表示创建成功。 8.在virtualbox里新建]]></content>
+      <categories>
+        <category>virtualbox</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>virtualbox</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu14.04 hadoop安装步骤(单机和伪分布式)]]></title>
+    <url>%2F2943276818%2F</url>
+    <content type="text"><![CDATA[ubuntu14.04下hadoop单机和伪分布式的安装步骤 创建hadoop用户添加hadoop用户（用户名字可以自己起）1sudo useradd -m hadoop -s /bin/bash 给hadoop用户设置密码，这里简单设置为：1，按照提示输入两次密码1sudo passwd hadoop 给hadoop用户增加管理员权限，方便部署1sudo adduser hadoop sudo 最后注销当前用户，使用hadoop账户登陆(注意别忘了)使用hadoop用户登陆之后，需要先更新一下apt1sudo apt-get update 安装、配置ssh无密码登陆集群、单节点模式都需要用到ssh登陆，ubuntu默认安装了ssh client，所以我还需要装ssh server1sudo apt-get install openssh-server 安装之后，使用如下命令登陆本机(首次登陆会有提示，输入yes即可)1ssh localhost 由于每次ssh登陆都需要输入密码，所以我们需要配置成无密码登陆比较方便，先退出刚才的ssh，然后利用ssh-keygen生成密钥，并将密钥加入到授权中：1234exit #退出刚才的ssh localhostcd ~/.ssh/ #若没有该目录，请先执行一次ssh localhostssh-keygen -t rsa #会有提示，都按回车就可以cat ./id_rsa.pub &gt;./authorized_keys #加入授权 再用ssh locahost命令，无需密码就能直接登陆了1ssh localhost 安装jdkjdk8下载地址 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html下载之后进行解压12cd ~/Downloads/tar zxvf jdk-8u91-linux-x64.tar.gz 将解压的文件夹移动到/usr/local目录下12345sudo mv jdk1.8.0_91 /usr/local``` 配置jdk环境变量,使用`gedit`打开`/etc/profile`文件```bashsudo gedit /etc/profile 在文件最后一行复制以下几行，并保存1234export JAVA_HOME=/usr/local/jdk1.8.0_91export JRE_HOME=/usr/local/jdk1.8.0_91/jreexport CLASSPATH=.:$JAVA_HOME/lib:$JRE_HOME/lib:$CLASSPATHexport PATH=$JAVA_HOME/bin:$JRE_HOME/bin:$PATH 执行source /etc/profile使修改立即生效 使用java -version查看安装是否成功 安装hadoop2hadoop2下载地址 http://hadoop.apache.org/releases.html 解压下载好的hadoop12cd ~/Downloads/ #进入到下载目录tar zxvf hadoop-2.7.2.tar.gz 将解压后的hadoop移动到/usr/local目录下1sudo mv hadoop-2.7.2 /usr/local 将hadoop文件夹及子目录的所有者更改为hadoop用户12cd /usr/localsudo chown -R hadoop hadoop-2.7.2 查看hadoop版本，是否可以成功使用1./bin/hadoop version hadoop单机配置(非分布式)hadoop默认模式为非分布式模式，无需进行其他配置即可运行。非分布式即单java进程，方便进行调试。 现在来执行例子来感受hadoop的运行。hadoop附带了丰富的例子(可以通过运行 ./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar来查看所有的例子)1./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar 我们选择运行grep例子，我们讲input文件夹中的所有文件作为输入，筛选当中符合正则表达式dfs[a-z.]+的单词病统计出现的次数，最后输出结果到output文件夹中。123456cd /usr/local/hadoop-2.7.2/mkdir ./inputcp ./etc/hadoop/*.xml ./input/ #将配置文件作为输入文件./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar grep ./input ./output 'dfs[a-z.]+'cat ./output/* #查看程序的执行结果 注意:hadoop默认不会覆盖结果文件，如果再次运行上面实例，需要先将output文件夹删除，否则会提示出错。 hadoop伪分布式配置Hadoop 可以在单节点上以伪分布式的方式运行，Hadoop 进程以分离的 Java 进程来运行，节点既作为 NameNode 也作为 DataNode，同时，读取的是 HDFS 中的文件。 Hadoop 的配置文件位于 /usr/local/hadoop-2.7.2/etc/hadoop/ 中，伪分布式需要修改2个配置文件 core-site.xml 和 hdfs-site.xml 。Hadoop的配置文件是 xml 格式，每个配置以声明 property 的 name 和 value 的方式来实现。 修改配置文件 core-site.xml1sudo gedit ./etc/hadoop/core-site.xml 修改为下面配置：1234567891011&lt;configuration&gt; &lt;property&gt; &lt;name&gt;hadoop.tmp.dir&lt;/name&gt; &lt;value&gt;file:/usr/local/hadoop-2.7.2/tmp&lt;/value&gt; &lt;description&gt;Abase for other temporary directories.&lt;/description&gt; &lt;/property&gt; &lt;property&gt; &lt;name&gt;fs.defaultFS&lt;/name&gt; &lt;value&gt;hdfs://localhost:9000&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; 同样的，修改配置文件 hdfs-site.xml，如下：1sudo gedit ./etc/hadoop/hdfs-site.xml 1234567891011121314&lt;configuration&gt; &lt;property&gt; &lt;name&gt;dfs.replication&lt;/name&gt; &lt;value&gt;1&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;name&gt;dfs.namenode.name.dir&lt;/name&gt; &lt;value&gt;file:/usr/local/hadoop-2.7.2/tmp/dfs/name&lt;/value&gt; &lt;/property&gt; &lt;property&gt; &lt;name&gt;dfs.datanode.data.dir&lt;/name&gt; &lt;value&gt;file:/usr/local/hadoop-2.7.2/tmp/dfs/data&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; Hadoop配置文件说明 Hadoop 的运行方式是由配置文件决定的（运行 Hadoop 时会读取配置文件），因此如果需要从伪分布式模式切换回非分布式模式，需要删除 core-site.xml 中的配置项。 此外，伪分布式虽然只需要配置 fs.defaultFS 和 dfs.replication 就可以运行（官方教程如此），不过若没有配置 hadoop.tmp.dir 参数，则默认使用的临时目录为 /tmp/hadoo-hadoop，而这个目录在重启时有可能被系统清理掉，导致必须重新执行 format 才行。所以我们进行了设置，同时也指定 dfs.namenode.name.dir 和 dfs.datanode.data.dir，否则在接下来的步骤中可能会出错。 配置完成后，执行 NameNode 的格式化: 1./bin/hdfs namenode -format 接着开启 NameNode 和 DataNode 守护进程。1./sbin/start-dfs.sh 如果报以下错误12345Starting namenodes on [localhost]localhost: Error: JAVA_HOME is not set and could not be found.localhost: Error: JAVA_HOME is not set and could not be found.Starting secondary namenodes [0.0.0.0]0.0.0.0: Error: JAVA_HOME is not set and could not be found. 则需要修改./etc/hadoop/hadoop-env.sh1gedit ./etc/hadoop/hadoop-env.sh #用gedit打开 1234# 找到下面这行export JAVA_HOME=$&#123;JAVA_HOME&#125;# 修改成下面，使用jdk的绝对路径export JAVA_HOME=/usr/local/jdk1.8.0_91 再重新执行./sbin/start-dfs.sh即可 启动完成后，使用jps来判断是否成功启动。若成功启动则会列出如下进程: “NameNode”、”DataNode” 和 “SecondaryNameNode”（如果 SecondaryNameNode 没有启动，请运行 sbin/stop-dfs.sh 关闭进程，然后再次尝试启动尝试）。如果没有 NameNode 或 DataNode ，那就是配置不成功，请仔细检查之前步骤，或通过查看启动日志排查原因。1jps 成功启动后，可以访问 Web 界面 http://localhost:50070, 查看 NameNode 和 Datanode 信息，还可以在线查看 HDFS 中的文件。 运行hadoop伪分布式实例 上面的单机模式，grep 例子读取的是本地数据，伪分布式读取的则是 HDFS 上的数据。要使用 HDFS，首先需要在 HDFS 中创建用户目录：12./bin/hdfs dfs -mkdir -p /user/hadoop#-p表示父目录 接着将 ./etc/hadoop 中的 xml 文件作为输入文件复制到分布式文件系统中，即将 /usr/local/hadoop/etc/hadoop 复制到分布式文件系统中的 /user/hadoop/input 中。我们使用的是 hadoop 用户，并且已创建相应的用户目录 /user/hadoop ，因此在命令中就可以使用相对路径如 input，其对应的绝对路径就是 /user/hadoop/input:12./bin/hdfs dfs -mkdir input ./bin/hdfs dfs -put ./etc/hadoop/*.xml input 复制完成后，可以通过如下命令查看文件列表：1./bin/hdfs dfs -ls input 伪分布式运行 MapReduce 作业的方式跟单机模式相同，区别在于伪分布式读取的是HDFS中的文件（可以将单机步骤中创建的本地 input 文件夹，输出结果 output 文件夹都删掉来验证这一点）。 先删除单机步骤中创建的input文件夹，还有输出结果output文件夹12rm -rf inputrm -rf output 执行grep例子1./bin/hadoop jar ./share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.2.jar grep input output 'dfs[a-z.]+' 结果如下，注意到刚才我们已经更改了配置文件，所以运行结果不同。1./bin/hdfs dfs -cat output/* 我们也可以将运行结果取回到本地：123rm -rf ./output #需要先删除本地output文件夹./bin/hdfs dfs -get output ./outputcat ./output/* Hadoop 运行程序时，输出目录不能存在，否则会提示错误 “org.apache.hadoop.mapred.FileAlreadyExistsException: Output directory hdfs://localhost:9000/user/hadoop/output already exists” ，因此若要再次执行，需要执行如下命令删除 output 文件夹:1./bin/hdfs dfs -rm -r output 启动yarn修改配置文件 mapred-site.xml12345#先进行重命名：mv ./etc/hadoop/mapred-site.xml.template ./etc/hadoop/mapred-site.xml#使用gedit修改sudo gedit ./etc/hadoop/mapred-site.xml#用以下文本替换 123456&lt;configuration&gt; &lt;property&gt; &lt;name&gt;mapreduce.framework.name&lt;/name&gt; &lt;value&gt;yarn&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; 接着修改配置文件 yarn-site.xml：123456&lt;configuration&gt; &lt;property&gt; &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt; &lt;value&gt;mapreduce_shuffle&lt;/value&gt; &lt;/property&gt;&lt;/configuration&gt; 启动 YARN 了（需要先执行过 ./sbin/start-dfs.sh）：123456./sbin/start-yarn.sh./sbin/mr-jobhistory-daemon.sh start historyserver #开启历史服务器，才能在Web中查看任务运行情况``` 开启后通过 jps 查看，可以看到多了 NodeManager 和 ResourceManager 两个后台进程```bashjps 启动 YARN 之后，运行实例的方法还是一样的，仅仅是资源管理方式、任务调度不同。观察日志信息可以发现，不启用 YARN 时，是 “mapred.LocalJobRunner” 在跑任务，启用 YARN 之后，是 “mapred.YARNRunner” 在跑任务。启动 YARN 有个好处是可以通过 Web 界面查看任务的运行情况：http://localhost:8088/cluster，如下图所示。 不启动 YARN 需重命名 mapred-site.xml 如果不想启动 YARN，务必把配置文件 mapred-site.xml 重命名，改成 mapred-site.xml.template，需要用时改回来就行。否则在该配置文件存在，而未开启 YARN 的情况下，运行程序会提示 “Retrying connect to server: 0.0.0.0/0.0.0.0:8032” 的错误，这也是为何该配置文件初始文件名为 mapred-site.xml.template。 关闭 YARN 的脚本如下：12./sbin/stop-yarn.sh./sbin/mr-jobhistory-daemon.sh stop historyserver Hadoop单机和伪分布式的配置就好了。]]></content>
+      <categories>
+        <category>hadoop</category>
+      </categories>
+      <tags>
+        <tag>ubuntu hadoop</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu configure: error: xml2-config not found. Please check your libxml2 installation错误解决]]></title>
+    <url>%2F3344135708%2F</url>
+    <content type="text"><![CDATA[在ubuntu14.04上安装php7时，执行:./configure命令时一直报 configure: error: xml2-config not found. Please check your libxml2 installation。 使用sudo apt-get install libxml2显示这个已经安装 在网上查找后：需要安装libxml2-dev软件包才行 1sudo apt-get install libxml2-dev]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu php</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu14.04 nginx普通用户无法绑定1024以下端口解决]]></title>
+    <url>%2F280768137%2F</url>
+    <content type="text"><![CDATA[执行下面这条命令1sudo setcap &apos;cap_net_bind_service=+ep&apos; /usr/local/nginx/sbin/nginx]]></content>
+      <categories>
+        <category>nginx</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>nginx</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu16.04 navidia驱动安装]]></title>
+    <url>%2F2796597353%2F</url>
+    <content type="text"><![CDATA[安装navidia驱动12345sudo apt-get purge nvidia-*sudo apt-get autoremovesudo add-apt-repository ppa:graphics-drivers/ppasudo apt-get updatesudo apt-get install nvidia-364 ​]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>navidia driver</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo插入本地图片]]></title>
+    <url>%2F809422878%2F</url>
+    <content type="text"><![CDATA[hexo博客引用本地图片并提交 修改_config.yml找到post_asset_folder设置为true1post_asset_folder: true 安装hexo-asset-image1npm install https://github.com/CodeFalling/hexo-asset-image -- save 图片引用每次使用hexo new &quot;page&quot;时，会生成page.md和page文件夹，page文件夹用来存放page.md中引用的图片。使用markdown语法引用图片即可。1![demo](page\demo.png)]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>hexo-asset-image</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo和gitment评论]]></title>
+    <url>%2F652457385%2F</url>
+    <content type="text"><![CDATA[hexo next主题配置gitment评论 创建OAuth App登录github，进入 https://github.com/settings/developers 点击 New OAuth APP,填写OAuth application内容，如下图所示 填写完后，点击注册，成功之后可以看到Client ID和Client Secret，在后面需要用到。 创建repository，用来存储评论如下图所示，这里创建的repository是hexo-gitment 在hexo next主题中配置在next的_config.yml文件中找到gitment配置处 修改gitment.swig文件gitment.swig文件在next/layout/_third-party/comments下将 id: window.location.pathname,修改为 id: &#39;&#39;,如下所示123456789101112131415161718192021function renderGitment()&#123; var gitment = new &#123;&#123;CommentsClass&#125;&#125;(&#123; id: &apos;&#123;&#123;page.date&#125;&#125;&apos;, owner: &apos;&#123;&#123; theme.gitment.github_user &#125;&#125;&apos;, repo: &apos;&#123;&#123; theme.gitment.github_repo &#125;&#125;&apos;, &#123;% if theme.gitment.mint %&#125; lang: &quot;&#123;&#123; theme.gitment.language &#125;&#125;&quot; || navigator.language || navigator.systemLanguage || navigator.userLanguage, &#123;% endif %&#125; oauth: &#123; &#123;% if theme.gitment.mint and theme.gitment.redirect_protocol %&#125; redirect_protocol: &apos;&#123;&#123; theme.gitment.redirect_protocol &#125;&#125;&apos;, &#123;% endif %&#125; &#123;% if theme.gitment.mint and theme.gitment.proxy_gateway %&#125; proxy_gateway: &apos;&#123;&#123; theme.gitment.proxy_gateway &#125;&#125;&apos;, &#123;% else %&#125; client_secret: &apos;&#123;&#123; theme.gitment.client_secret &#125;&#125;&apos;, &#123;% endif %&#125; client_id: &apos;&#123;&#123; theme.gitment.client_id &#125;&#125;&apos; &#125;&#125;); gitment.render(&apos;gitment-container&apos;);&#125; 部署配置完成后，hexo g -d，需要等待一会才会好。 初始化评论每篇文章第一次评论时，都需要点击一次初始化本文的评论页]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>gitment</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu压缩文件到windows上乱码问题]]></title>
+    <url>%2F2014681399%2F</url>
+    <content type="text"><![CDATA[修改/etc/default/locale文件12345678910LANG=&quot;zh_CN.UTF-8&quot;LC_NUMERIC=&quot;zh_CN.UTF-8&quot;LC_TIME=&quot;zh_CN.UTF-8&quot;LC_MONETARY=&quot;zh_CN.UTF-8&quot;LC_PAPER=&quot;zh_CN.UTF-8&quot;LC_NAME=&quot;zh_CN.UTF-8&quot;LC_ADDRESS=&quot;zh_CN.UTF-8&quot;LC_TELEPHONE=&quot;zh_CN.UTF-8&quot;LC_MEASUREMENT=&quot;zh_CN.UTF-8&quot;LC_IDENTIFICATION=&quot;zh_CN.UTF-8&quot;]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[grub和grub-rescue启动ubuntu并修复启动项]]></title>
+    <url>%2F314144721%2F</url>
+    <content type="text"><![CDATA[ubuntu启动进入grub或者grub-rescue下，启动项修复 grub启动修复先加载启动文件进入ubuntu123set root=(hd0,8); (可以通过root来查看硬盘分区,root (hd0,x)查看分区格式,找到ubuntu启动项所在分区)kernel /boot/grub/i386-pc/core.img;boot grub-rescue启动修复同样的，先加载启动文件进入ubuntu1234set root=(hd0,8); (可以通过root来查看硬盘分区,root (hd0,x)查看分区格式,找到ubuntu启动项所在分区)set prefix=(hd0,8)/boot/grubinsmod /boot/grub/i386-pc/normal.mod #或者insmod normal或者insmod /grub/normal.mod. 一般来说，肯定有一个不会出错normal 进入ubuntu后，执行下面两条命令就可以修复启动项了12sudo update-grubsudo grub-install /dev/sda]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>grub</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu扩容]]></title>
+    <url>%2F3164053385%2F</url>
+    <content type="text"><![CDATA[ubuntu挂载NTFS分区和挂载ext4分区来扩容 直接挂载NTFS分区 新建挂载点sudo mkdir -p /windows/sda8 在/etc/fstab添加/dev/sda8 /windows/sda8 ntfs uid=1000,auto,user,nls=utf8,umask=0027,exec 0 0 最后执行sudo mount -a就能在/windows/sda8文件夹下直接用这个分区 挂载ext4分区 先要格式化成ext4,可以使用gparted工具,或者sudo mkfs.ext4 /dev/sda8 新建挂载点sudo mkdir /sda8 在/etc/fstab添加/dev/sda8 /sda8 ext4 defaults 0 2 最后执行sudo mount -a]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu14.04 pfp-fpm开机启动]]></title>
+    <url>%2F45252325%2F</url>
+    <content type="text"><![CDATA[ubuntu14.04下设置pfp-fpm开机启动 php下载下载php的源码，编译好就行，然后找到init.d.php-fpm.in文件，拷贝到/etc/init.d/目录下，名字为php-fpm 修改php-fpm文件找到以下内容并修改12345prefix=exec_prefix=php_fpm_BIN=/usr/local/php5.6/sbin/php-fpmphp_fpm_CONF=/usr/local/php5.6/etc/php-fpm.confphp_fpm_PID=/usr/local/php5.6/var/run/php-fpm.pid ​  设置开机启动12sudo update-rc.d -f php-fpm defaultssudo runlevel ​ ]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>phpfpm</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu pydio在nginx上部署]]></title>
+    <url>%2F3766093411%2F</url>
+    <content type="text"><![CDATA[ubuntu下使用nginx部署pydio pydio依赖环境php5.6安装123sudo add-apt-repository ppa:ondrej/phpsudo apt updatesudo apt install php5.6 php5.6-curl php5.6-gd php5.6-mbstring php5.6-mcrypt php5.6-mysql php5.6-xml php5.6-xmlrpc php-xdebug php5.6-intl php5.6-fpm php5.6-dev php5.6-cli php5.6-common 可以通过sudo apt-cache search php5.6来查看php有哪些扩展可以安装 nginx安装官网安装参考链接 http://nginx.org/en/linux_packages.html pydio部署pydio下载地址 https://sourceforge.net/projects/ajaxplorer/ pydio部署参考链接 https://pydio.com/en/docs/kb/system/installing-debiannginx 注意:和参考中有几点不一样的地方： 由于nginx.conf配置文件中包含了/etc/nginx/conf.d/*.conf,所以只需要在/etc/nginx/conf.d/目录下添加pydio.conf配置文件，在该文件中进行server配置。 php版本和参考中使用的不一样，需要对应成自己安装版本即可。 打开pydio网站首页时，会检测依赖的php扩展是否安装，如果出现warning(警告),可通过sudo apt-cache search php5.6来查找缺失扩展使用apt install进行安装，或者通过pecl进行安装。 启动ssl需要生成ssl证书生成证书：123mkdir -p /etc/ssl/localcertsapt-get install opensslopenssl req -new -x509 -days 3650 -nodes -out /etc/ssl/localcerts/nginx_pydio.pem -keyout /etc/ssl/localcerts/nginx_pydio.key 添加权限：12chmod 600 /etc/ssl/localcerts/*chown -R www-data:root /etc/ssl/localcerts 最后在pydio的配置文件添加找到 listen 443 ssl;在该行下面添加12ssl_certificate /etc/ssl/localcerts/nginx_pydio.pem;ssl_certificate_key /etc/ssl/localcerts/nginx_pydio.key;]]></content>
+      <categories>
+        <category>pydio</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>nginx</tag>
+        <tag>pydio</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu apache2启用python-cgi]]></title>
+    <url>%2F2740217651%2F</url>
+    <content type="text"><![CDATA[ubuntu下apache2启用python-cgi 安装apache21sudo apt-get install apache2 在apache2.conf中添加12345678ScriptAlias /cgi-bin/ /var/www/cgi-bin/&lt;Directory &quot;/var/www/cgi-bin/&quot;&gt; AllowOverride None Options +ExecCGI Order allow,deny Allow from all AddHandler cgi-script .py&lt;/Directory&gt; 启用cgi1sudo a2enmod cgi 将python脚本放在/var/www/cgi-bin/目录下，并赋可执行权限1sudo chmod 755 *.py]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>apache</tag>
+        <tag>python-cgi</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu apt代理设置]]></title>
+    <url>%2F1368529979%2F</url>
+    <content type="text"><![CDATA[编辑/etc/apt/apt.conf文件123Acquire::http::proxy &quot;http://&lt;proxy&gt;:&lt;port&gt;/&quot;;Acquire::ftp::proxy &quot;ftp://&lt;proxy&gt;:&lt;port&gt;/&quot;;Acquire::https::proxy &quot;https://&lt;proxy&gt;:&lt;port&gt;/&quot;; 出现以下错误时: Packages server certificate verification failed. CAfile: /etc/ssl/certs/ca-certificates.crt CRLfile: none 在/etc/apt/apt.conf添加：12Acquire::https::packages.cloud.google.com::Verify-Peer &quot;false&quot;;Acquire::https::apt.dockerproject.org::Verify-Peer &quot;false&quot;;]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>apt-proxy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu添加可信证书]]></title>
+    <url>%2F2735220453%2F</url>
+    <content type="text"><![CDATA[ubuntu下添加可信证书 添加证书证书(扩展名为crt)复制到/usr/local/share/ca-certificates文件夹然后运行update-ca-certificates12sudo cp zhengshu.crt /usr/local/share/ca-certificatessudo update-ca-certificates 删除证书将/usr/local/share/ca-certificates对应的证书删除，然后执行update-ca-certificates12sudo rm -f /usr/local/share/ca-certificates/zhengshu.crtsudo update-ca-certificates 参考链接: http://yaxin-cn.github.io/Linux/add-root-certificate-in-ubuntu.html]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[hexo生成tags链接]]></title>
+    <url>%2F3741088398%2F</url>
+    <content type="text"><![CDATA[hexo生成tags链接 新建tags页面1hexo new page &quot;tags&quot; 编辑tags文件夹下的index.md123title: tagsdate: 2018-04-05 14:58:23type: &quot;tags&quot; 启用themes/next/_config.yml文件中的tags，如下:12menu: tags: /tags/ || tags]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[ubuntu添加静态ip和dns]]></title>
+    <url>%2F3414172487%2F</url>
+    <content type="text"><![CDATA[ubuntu下添加静态ip和dns 添加静态ip修改/etc/network/interfaces文件1234567auto eth0 iface eth0 inet static address 192.168.0.117 gateway 192.168.0.1 netmask 255.255.255.0 network 192.168.0.0 broadcast 192.168.0.25 添加dns编辑/etc/resolvconf/resolv.conf.d/base，这个文件默认是空的1sudo vi /etc/resolvconf/resolv.conf.d/base 配置dns123456nameserver 8.8.8.8 nameserver 8.8.4.4``` 保存，然后执行``` sudo resolvconf -u 查看/etc/resolv.conf，最下面是否多了2行：12nameserver 8.8.8.8 nameserver 8.8.4.4 重启网卡sudo /etc/init.d/network restart]]></content>
+      <categories>
+        <category>ubuntu</category>
+      </categories>
+      <tags>
+        <tag>ubuntu</tag>
+        <tag>ip</tag>
+        <tag>dns</tag>
+      </tags>
+  </entry>
+</search>
