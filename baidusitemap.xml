@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/1364452984/</loc>
+    <lastmod>2019-05-09T01:40:32.000Z</lastmod>
+    <data>
+        <display>
+        <title>idea搭建osgi项目开发学习</title>
+        <pubTime>2019-05-09T01:39:44.000Z</pubTime>
+        
+        <tag>osgi</tag>
+         
+         
+           
+             
+              <breadCrumb title="osgi" url="https://jecyhw.github.io/categories/osgi/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/3578637002/</loc>
     <lastmod>2019-05-06T08:54:51.000Z</lastmod>
     <data>
@@ -25,45 +45,19 @@
     
     
   <url>
-    <loc>https://jecyhw.github.io/2740217651/</loc>
+    <loc>https://jecyhw.github.io/4075928980/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu apache2启用python-cgi</title>
-        <pubTime>2018-04-05T07:17:17.000Z</pubTime>
+        <title>spring mvc将空字串转换成null配置</title>
+        <pubTime>2018-04-05T13:28:23.000Z</pubTime>
         
-        <tag>ubuntu</tag>
-         
-        <tag>apache</tag>
-         
-        <tag>python-cgi</tag>
+        <tag>spring mvc</tag>
          
          
            
              
-              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/2808712848/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>docker出现Memory limited without swap</title>
-        <pubTime>2018-05-05T05:35:09.000Z</pubTime>
-        
-        <tag>ubuntu</tag>
-         
-        <tag>docker</tag>
-         
-         
-           
-             
-              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
+              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
           
         </display>
     </data>
@@ -285,6 +279,26 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/958030140/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>Enable File Watcher to compile SCSS to CSS</title>
+        <pubTime>2018-04-13T01:25:33.000Z</pubTime>
+        
+        <tag>WebStorm</tag>
+         
+         
+           
+             
+              <breadCrumb title="WebStorm" url="https://jecyhw.github.io/categories/WebStorm/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/809422878/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -349,30 +363,6 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/1099619583/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>nginx swagger问题解决</title>
-        <pubTime>2018-04-12T13:18:47.000Z</pubTime>
-        
-        <tag>nginx</tag>
-         
-        <tag>spring boot</tag>
-         
-        <tag>swagger</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jecyhw.github.io/2914312071/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -393,6 +383,30 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/1099619583/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>nginx swagger问题解决</title>
+        <pubTime>2018-04-12T13:18:47.000Z</pubTime>
+        
+        <tag>spring boot</tag>
+         
+        <tag>nginx</tag>
+         
+        <tag>swagger</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/1664483852/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -403,28 +417,6 @@
         <tag>spring boot</tag>
          
         <tag>swagger</tag>
-         
-         
-           
-             
-              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/3913767996/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>spring mvc freemarker配置</title>
-        <pubTime>2018-04-05T13:29:49.000Z</pubTime>
-        
-        <tag>spring mvc</tag>
-         
-        <tag>freemarker</tag>
          
          
            
@@ -459,6 +451,28 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/3913767996/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>spring mvc freemarker配置</title>
+        <pubTime>2018-04-05T13:29:49.000Z</pubTime>
+        
+        <tag>spring mvc</tag>
+         
+        <tag>freemarker</tag>
+         
+         
+           
+             
+              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/126721933/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -479,34 +493,18 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/958030140/</loc>
+    <loc>https://jecyhw.github.io/2740217651/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>Enable File Watcher to compile SCSS to CSS</title>
-        <pubTime>2018-04-13T01:25:33.000Z</pubTime>
-        
-        <tag>WebStorm</tag>
-         
-         
-           
-             
-              <breadCrumb title="WebStorm" url="https://jecyhw.github.io/categories/WebStorm/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/2007401021/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu执行apt update出现Aborted (core dumped)错误</title>
-        <pubTime>2018-05-04T09:43:11.000Z</pubTime>
+        <title>ubuntu apache2启用python-cgi</title>
+        <pubTime>2018-04-05T07:17:17.000Z</pubTime>
         
         <tag>ubuntu</tag>
+         
+        <tag>apache</tag>
+         
+        <tag>python-cgi</tag>
          
          
            
@@ -532,6 +530,26 @@
            
              
               <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jecyhw.github.io/2007401021/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu执行apt update出现Aborted (core dumped)错误</title>
+        <pubTime>2018-05-04T09:43:11.000Z</pubTime>
+        
+        <tag>ubuntu</tag>
+         
+         
+           
+             
+              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
           
         </display>
     </data>
@@ -581,28 +599,6 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/280768137/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu14.04 nginx普通用户无法绑定1024以下端口解决</title>
-        <pubTime>2018-04-05T11:49:03.000Z</pubTime>
-        
-        <tag>ubuntu</tag>
-         
-        <tag>nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jecyhw.github.io/3766093411/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -627,6 +623,48 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/2943276818/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu14.04 hadoop安装步骤(单机和伪分布式)</title>
+        <pubTime>2018-04-05T11:53:16.000Z</pubTime>
+        
+        <tag>ubuntu hadoop</tag>
+         
+         
+           
+             
+              <breadCrumb title="hadoop" url="https://jecyhw.github.io/categories/hadoop/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jecyhw.github.io/280768137/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu14.04 nginx普通用户无法绑定1024以下端口解决</title>
+        <pubTime>2018-04-05T11:49:03.000Z</pubTime>
+        
+        <tag>ubuntu</tag>
+         
+        <tag>nginx</tag>
+         
+         
+           
+             
+              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/45252325/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -642,26 +680,6 @@
            
              
               <breadCrumb title="php" url="https://jecyhw.github.io/categories/php/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/2943276818/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu14.04 hadoop安装步骤(单机和伪分布式)</title>
-        <pubTime>2018-04-05T11:53:16.000Z</pubTime>
-        
-        <tag>ubuntu hadoop</tag>
-         
-         
-           
-             
-              <breadCrumb title="hadoop" url="https://jecyhw.github.io/categories/hadoop/"/>
           
         </display>
     </data>
@@ -693,16 +711,16 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/2796597353/</loc>
+    <loc>https://jecyhw.github.io/2379415734/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu16.04 navidia驱动安装</title>
-        <pubTime>2018-04-05T11:47:35.000Z</pubTime>
+        <title>ubuntu16.04设置python3默认</title>
+        <pubTime>2018-05-05T00:50:59.000Z</pubTime>
         
         <tag>ubuntu</tag>
          
-        <tag>navidia driver</tag>
+        <tag>python</tag>
          
          
            
@@ -715,16 +733,16 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/2379415734/</loc>
+    <loc>https://jecyhw.github.io/2796597353/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu16.04设置python3默认</title>
-        <pubTime>2018-05-05T00:50:59.000Z</pubTime>
+        <title>ubuntu16.04 navidia驱动安装</title>
+        <pubTime>2018-04-05T11:47:35.000Z</pubTime>
         
         <tag>ubuntu</tag>
          
-        <tag>python</tag>
+        <tag>navidia driver</tag>
          
          
            
@@ -869,25 +887,27 @@
     
     
     
-    
-    
   <url>
-    <loc>https://jecyhw.github.io/4075928980/</loc>
+    <loc>https://jecyhw.github.io/2808712848/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>spring mvc将空字串转换成null配置</title>
-        <pubTime>2018-04-05T13:28:23.000Z</pubTime>
+        <title>docker出现Memory limited without swap</title>
+        <pubTime>2018-05-05T05:35:09.000Z</pubTime>
         
-        <tag>spring mvc</tag>
+        <tag>ubuntu</tag>
+         
+        <tag>docker</tag>
          
          
            
              
-              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
           
         </display>
     </data>
     </url>
 
+    
+    
 </urlset>
