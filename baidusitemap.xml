@@ -5,7 +5,7 @@
     
   <url>
     <loc>https://jecyhw.github.io/650286525/</loc>
-    <lastmod>2019-05-15T14:13:36.000Z</lastmod>
+    <lastmod>2019-05-15T14:15:25.000Z</lastmod>
     <data>
         <display>
         <title>Scala case class学习</title>
@@ -303,26 +303,6 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/3741088398/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>hexo生成tags链接</title>
-        <pubTime>2018-04-05T07:00:48.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo" url="https://jecyhw.github.io/categories/hexo/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jecyhw.github.io/809422878/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -345,6 +325,27 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/3741088398/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>hexo生成tags链接</title>
+        <pubTime>2018-04-05T07:00:48.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="https://jecyhw.github.io/categories/hexo/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+  <url>
     <loc>https://jecyhw.github.io/3435526137/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -365,7 +366,6 @@
     </data>
     </url>
 
-    
     
   <url>
     <loc>https://jecyhw.github.io/2914312071/</loc>
@@ -580,26 +580,6 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/3344135708/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu configure: error: xml2-config not found. Please check your libxml2 installation错误解决</title>
-        <pubTime>2018-04-05T11:51:10.000Z</pubTime>
-        
-        <tag>ubuntu php</tag>
-         
-         
-           
-             
-              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jecyhw.github.io/3766093411/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -624,6 +604,26 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/3344135708/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu configure: error: xml2-config not found. Please check your libxml2 installation错误解决</title>
+        <pubTime>2018-04-05T11:51:10.000Z</pubTime>
+        
+        <tag>ubuntu php</tag>
+         
+         
+           
+             
+              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/2943276818/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -637,28 +637,6 @@
            
              
               <breadCrumb title="hadoop" url="https://jecyhw.github.io/categories/hadoop/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/280768137/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu14.04 nginx普通用户无法绑定1024以下端口解决</title>
-        <pubTime>2018-04-05T11:49:03.000Z</pubTime>
-        
-        <tag>ubuntu</tag>
-         
-        <tag>nginx</tag>
-         
-         
-           
-             
-              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
           
         </display>
     </data>
@@ -690,21 +668,21 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/45252325/</loc>
+    <loc>https://jecyhw.github.io/280768137/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu14.04 pfp-fpm开机启动</title>
-        <pubTime>2018-04-05T07:25:46.000Z</pubTime>
+        <title>ubuntu14.04 nginx普通用户无法绑定1024以下端口解决</title>
+        <pubTime>2018-04-05T11:49:03.000Z</pubTime>
         
         <tag>ubuntu</tag>
          
-        <tag>phpfpm</tag>
+        <tag>nginx</tag>
          
          
            
              
-              <breadCrumb title="php" url="https://jecyhw.github.io/categories/php/"/>
+              <breadCrumb title="nginx" url="https://jecyhw.github.io/categories/nginx/"/>
           
         </display>
     </data>
@@ -727,6 +705,28 @@
            
              
               <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jecyhw.github.io/45252325/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu14.04 pfp-fpm开机启动</title>
+        <pubTime>2018-04-05T07:25:46.000Z</pubTime>
+        
+        <tag>ubuntu</tag>
+         
+        <tag>phpfpm</tag>
+         
+         
+           
+             
+              <breadCrumb title="php" url="https://jecyhw.github.io/categories/php/"/>
           
         </display>
     </data>
