@@ -4,8 +4,30 @@
 
     
   <url>
+    <loc>https://jecyhw.github.io/650286525/</loc>
+    <lastmod>2019-05-15T14:08:21.000Z</lastmod>
+    <data>
+        <display>
+        <title>Scala case class学习</title>
+        <pubTime>2019-05-15T14:05:40.000Z</pubTime>
+        
+        <tag>scala</tag>
+         
+        <tag>case class</tag>
+         
+         
+           
+             
+              <breadCrumb title="scala" url="https://jecyhw.github.io/categories/scala/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>https://jecyhw.github.io/1364452984/</loc>
-    <lastmod>2019-05-09T01:40:32.000Z</lastmod>
+    <lastmod>2019-05-09T01:43:52.000Z</lastmod>
     <data>
         <display>
         <title>idea搭建osgi项目开发学习</title>
@@ -45,19 +67,21 @@
     
     
   <url>
-    <loc>https://jecyhw.github.io/4075928980/</loc>
+    <loc>https://jecyhw.github.io/2808712848/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>spring mvc将空字串转换成null配置</title>
-        <pubTime>2018-04-05T13:28:23.000Z</pubTime>
+        <title>docker出现Memory limited without swap</title>
+        <pubTime>2018-05-05T05:35:09.000Z</pubTime>
         
-        <tag>spring mvc</tag>
+        <tag>ubuntu</tag>
+         
+        <tag>docker</tag>
          
          
            
              
-              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
           
         </display>
     </data>
@@ -279,19 +303,19 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/958030140/</loc>
+    <loc>https://jecyhw.github.io/3741088398/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>Enable File Watcher to compile SCSS to CSS</title>
-        <pubTime>2018-04-13T01:25:33.000Z</pubTime>
+        <title>hexo生成tags链接</title>
+        <pubTime>2018-04-05T07:00:48.000Z</pubTime>
         
-        <tag>WebStorm</tag>
+        <tag>hexo</tag>
          
          
            
              
-              <breadCrumb title="WebStorm" url="https://jecyhw.github.io/categories/WebStorm/"/>
+              <breadCrumb title="hexo" url="https://jecyhw.github.io/categories/hexo/"/>
           
         </display>
     </data>
@@ -309,26 +333,6 @@
         <tag>hexo</tag>
          
         <tag>hexo-asset-image</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo" url="https://jecyhw.github.io/categories/hexo/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>https://jecyhw.github.io/3741088398/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>hexo生成tags链接</title>
-        <pubTime>2018-04-05T07:00:48.000Z</pubTime>
-        
-        <tag>hexo</tag>
          
          
            
@@ -381,6 +385,7 @@
     </data>
     </url>
 
+    
     
   <url>
     <loc>https://jecyhw.github.io/1099619583/</loc>
@@ -473,19 +478,19 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/126721933/</loc>
+    <loc>https://jecyhw.github.io/958030140/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>spring mvc中ResponseEntity的中文返回乱码解决</title>
-        <pubTime>2018-04-05T13:32:06.000Z</pubTime>
+        <title>Enable File Watcher to compile SCSS to CSS</title>
+        <pubTime>2018-04-13T01:25:33.000Z</pubTime>
         
-        <tag>spring mvc</tag>
+        <tag>WebStorm</tag>
          
          
            
              
-              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+              <breadCrumb title="WebStorm" url="https://jecyhw.github.io/categories/WebStorm/"/>
           
         </display>
     </data>
@@ -493,23 +498,19 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/2740217651/</loc>
+    <loc>https://jecyhw.github.io/4075928980/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu apache2启用python-cgi</title>
-        <pubTime>2018-04-05T07:17:17.000Z</pubTime>
+        <title>spring mvc将空字串转换成null配置</title>
+        <pubTime>2018-04-05T13:28:23.000Z</pubTime>
         
-        <tag>ubuntu</tag>
-         
-        <tag>apache</tag>
-         
-        <tag>python-cgi</tag>
+        <tag>spring mvc</tag>
          
          
            
              
-              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
+              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
           
         </display>
     </data>
@@ -557,16 +558,14 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/1368529979/</loc>
+    <loc>https://jecyhw.github.io/3344135708/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu apt代理设置</title>
-        <pubTime>2018-04-05T07:11:44.000Z</pubTime>
+        <title>ubuntu configure: error: xml2-config not found. Please check your libxml2 installation错误解决</title>
+        <pubTime>2018-04-05T11:51:10.000Z</pubTime>
         
-        <tag>ubuntu</tag>
-         
-        <tag>apt-proxy</tag>
+        <tag>ubuntu php</tag>
          
          
            
@@ -579,14 +578,16 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/3344135708/</loc>
+    <loc>https://jecyhw.github.io/1368529979/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu configure: error: xml2-config not found. Please check your libxml2 installation错误解决</title>
-        <pubTime>2018-04-05T11:51:10.000Z</pubTime>
+        <title>ubuntu apt代理设置</title>
+        <pubTime>2018-04-05T07:11:44.000Z</pubTime>
         
-        <tag>ubuntu php</tag>
+        <tag>ubuntu</tag>
+         
+        <tag>apt-proxy</tag>
          
          
            
@@ -711,28 +712,6 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/2379415734/</loc>
-    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
-    <data>
-        <display>
-        <title>ubuntu16.04设置python3默认</title>
-        <pubTime>2018-05-05T00:50:59.000Z</pubTime>
-        
-        <tag>ubuntu</tag>
-         
-        <tag>python</tag>
-         
-         
-           
-             
-              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>https://jecyhw.github.io/2796597353/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
@@ -755,14 +734,16 @@
 
     
   <url>
-    <loc>https://jecyhw.github.io/2014681399/</loc>
+    <loc>https://jecyhw.github.io/2379415734/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>ubuntu压缩文件到windows上乱码问题</title>
-        <pubTime>2018-04-05T07:34:25.000Z</pubTime>
+        <title>ubuntu16.04设置python3默认</title>
+        <pubTime>2018-05-05T00:50:59.000Z</pubTime>
         
         <tag>ubuntu</tag>
+         
+        <tag>python</tag>
          
          
            
@@ -781,6 +762,26 @@
         <display>
         <title>ubuntu扩容</title>
         <pubTime>2018-04-05T07:29:01.000Z</pubTime>
+        
+        <tag>ubuntu</tag>
+         
+         
+           
+             
+              <breadCrumb title="ubuntu" url="https://jecyhw.github.io/categories/ubuntu/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>https://jecyhw.github.io/2014681399/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>ubuntu压缩文件到windows上乱码问题</title>
+        <pubTime>2018-04-05T07:34:25.000Z</pubTime>
         
         <tag>ubuntu</tag>
          
@@ -888,16 +889,18 @@
     
     
   <url>
-    <loc>https://jecyhw.github.io/2808712848/</loc>
+    <loc>https://jecyhw.github.io/2740217651/</loc>
     <lastmod>2018-07-31T02:51:28.000Z</lastmod>
     <data>
         <display>
-        <title>docker出现Memory limited without swap</title>
-        <pubTime>2018-05-05T05:35:09.000Z</pubTime>
+        <title>ubuntu apache2启用python-cgi</title>
+        <pubTime>2018-04-05T07:17:17.000Z</pubTime>
         
         <tag>ubuntu</tag>
          
-        <tag>docker</tag>
+        <tag>apache</tag>
+         
+        <tag>python-cgi</tag>
          
          
            
@@ -910,4 +913,23 @@
 
     
     
+  <url>
+    <loc>https://jecyhw.github.io/126721933/</loc>
+    <lastmod>2018-07-31T02:51:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>spring mvc中ResponseEntity的中文返回乱码解决</title>
+        <pubTime>2018-04-05T13:32:06.000Z</pubTime>
+        
+        <tag>spring mvc</tag>
+         
+         
+           
+             
+              <breadCrumb title="java" url="https://jecyhw.github.io/categories/java/"/>
+          
+        </display>
+    </data>
+    </url>
+
 </urlset>
