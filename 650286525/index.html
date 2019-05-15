@@ -86,22 +86,22 @@
 
 
 
-<meta name="description" content="本文简单介绍了如何定义case class和以及case class在模式匹配中如何使用。 case class介绍样例类（case class）适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。 case class定义123456789101112case class Book(name: String) &amp;#123;  def printBookName(): Unit =">
+<meta name="description" content="本文介绍了case class和以及case class在模式匹配中如何使用。">
 <meta name="keywords" content="scala,case class">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scala case class学习">
 <meta property="og:url" content="https://jecyhw.github.io/650286525/index.html">
 <meta property="og:site_name" content="Jecyhw&#39;s Blog">
-<meta property="og:description" content="本文简单介绍了如何定义case class和以及case class在模式匹配中如何使用。 case class介绍样例类（case class）适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。 case class定义123456789101112case class Book(name: String) &amp;#123;  def printBookName(): Unit =">
+<meta property="og:description" content="本文介绍了case class和以及case class在模式匹配中如何使用。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14444552-4dac6df995accaf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14444552-4d763e6ba2fc13c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14444552-04d16c5ecf0d558f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/14444552-438d3c7defa3316b.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2019-05-15T14:08:21.000Z">
+<meta property="og:updated_time" content="2019-05-15T14:10:37.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Scala case class学习">
-<meta name="twitter:description" content="本文简单介绍了如何定义case class和以及case class在模式匹配中如何使用。 case class介绍样例类（case class）适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。 case class定义123456789101112case class Book(name: String) &amp;#123;  def printBookName(): Unit =">
+<meta name="twitter:description" content="本文介绍了case class和以及case class在模式匹配中如何使用。">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/14444552-4dac6df995accaf4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
@@ -362,7 +362,7 @@
               
                 <span class="post-meta-item-text">更新于&#58;</span>
               
-              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T22:08:21+08:00">
+              <time title="更新于" itemprop="dateModified" datetime="2019-05-15T22:10:37+08:00">
                 2019-05-15
               </time>
             
@@ -433,7 +433,7 @@
                   <span class="post-meta-item-text">字数统计&#58;</span>
                 
                 <span title="字数统计">
-                  1,263 字
+                  1,257 字
                 </span>
               
 
@@ -470,7 +470,7 @@
       
 
       
-        <p>本文简单介绍了如何定义case class和以及case class在模式匹配中如何使用。</p>
+        <p>本文介绍了case class和以及case class在模式匹配中如何使用。<br><a id="more"></a></p>
 <h3 id="case-class介绍"><a href="#case-class介绍" class="headerlink" title="case class介绍"></a>case class介绍</h3><p>样例类（case class）适合用于不可变的数据。它是一种特殊的类，能够被优化以用于模式匹配。</p>
 <h4 id="case-class定义"><a href="#case-class定义" class="headerlink" title="case class定义"></a>case class定义</h4><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Book</span>(<span class="params">name: <span class="type">String</span></span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">printBookName</span></span>(): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(name)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">BookTest</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> book = <span class="type">Book</span>(<span class="string">"Java入门到放弃"</span>)</span><br><span class="line">    book.printBookName()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>在实例化case class类时，不需要使用关键字New，case class类编译成class文件之后会自动生成apply方法，这个方法负责对象的创建。<br>通过<a href="https://github.com/java-decompiler/jd-gui" target="_blank" rel="noopener">JD-GUI</a>工具可以查看编译后的.class文件（有兴趣的可以自己看下）。<br>Scala自动为Book生成了apply静态方法，里面调用了Book$类的apply方法用来生成Book对象。</p>
